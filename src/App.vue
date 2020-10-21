@@ -1,6 +1,6 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class='logo' />
+  <HelloWorld msg="Welcome to 致理桌遊社"/>
 </template>
 
 <script>
@@ -22,5 +22,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.logo {
+  width: 200px;
+  height: 200px;
+  background-size: contain;
+  background-image: url('./assets/logo.jpg');
+  border-radius: 20px;
+  margin: 0 auto;
 }
 </style>
