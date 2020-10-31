@@ -3,13 +3,15 @@ import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
 import Create from "./pages/Create.vue";
 import Home from "./pages/Home.vue";
+import Item from "./pages/Item.vue";
 import List from "./pages/List.vue";
 import { createApp } from "vue";
 
 const routes = [
-  { path: "/", component: Home },
-  { path: "/list", component: List },
-  { path: "/create", component: Create },
+  { name: 'home', path: "/", component: Home },
+  { name: 'list', path: "/list", component: List },
+  { name: 'create', path: "/create", component: Create },
+  { name: 'item', path: "/item/:id", component: Item },
 ];
 
 const router = createRouter({
