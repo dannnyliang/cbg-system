@@ -5,6 +5,7 @@ import Create from "./pages/Create.vue";
 import Home from "./pages/Home.vue";
 import Item from "./pages/Item.vue";
 import List from "./pages/List.vue";
+import constantPlguin from "./plugins/constantPlguin";
 import { createApp } from "vue";
 
 const routes = [
@@ -21,4 +22,5 @@ const router = createRouter({
 
 const app = createApp(App);
 app.use(router);
+app.use(constantPlguin)
 app.mount("#app");
