@@ -1,23 +1,33 @@
 <template>
-  <h1>List Page</h1>
-  <div class="list">
+  <h1 @click="log">List Page</h1>
+  <div v-if="loading === true">Loading...</div>
+  <div v-else-if="data.length === 0">No any game!</div>
+  <div class="list" v-else>
     <router-link
       class="item-link"
-      v-for="item in items"
+      v-for="item in data"
       :key="item.id"
       :to="{ name: 'item', params: { id: item.id } }"
-      >{{ item.id }}</router-link
+      >{{ item.name }}</router-link
     >
   </div>
 </template>
 
 <script>
+import getGames from "../apis/getGames";
+
 export default {
   name: "List",
   data() {
     return {
-      items: [{ id: 1 }, { id: 2 }, { id: 3 }],
+      loading: true,
+      data: [],
     };
+  },
+  async mounted() {
+    const data = await getGames();
+    this.$data.data = data;
+    this.$data.loading = false;
   },
 };
 </script>
