@@ -47,10 +47,10 @@ export default {
   data() {
     return {
       form: {
-        name: this.initialValues.name,
-        minPlayer: this.initialValues.minPlayer ?? 1,
-        maxPlayer: this.initialValues.maxPlayer ?? 1,
-        type: this.initialValues.type,
+        name: this.initialValues?.name,
+        minPlayer: this.initialValues?.minPlayer ?? 1,
+        maxPlayer: this.initialValues?.maxPlayer ?? 1,
+        type: this.initialValues?.type,
       },
     };
   },
