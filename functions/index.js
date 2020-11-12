@@ -30,7 +30,7 @@ exports.createGame = functions.https.onRequest((req, res) => {
  * - filter
  * - sorter
  */
-exports.getGame = functions.https.onRequest(async (req, res) => {
+exports.getGames = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     const games = [];
     const listSnapshot = await Collections.Game.get();
