@@ -6,23 +6,23 @@
     </p>
 
     <p>
-      <label for="minPlayer">minPlayer: </label>
+      <label for="minPlayers">minPlayers: </label>
       <input
         type="number"
-        name="minPlayer"
-        id="minPlayer"
-        v-model="form.minPlayer"
+        name="minPlayers"
+        id="minPlayers"
+        v-model="form.minPlayers"
         min="0"
       />
     </p>
 
     <p>
-      <label for="maxPlayer">maxPlayer: </label>
+      <label for="maxPlayers">maxPlayers: </label>
       <input
         type="number"
-        name="maxPlayer"
-        id="maxPlayer"
-        v-model="form.maxPlayer"
+        name="maxPlayers"
+        id="maxPlayers"
+        v-model="form.maxPlayers"
         min="0"
       />
     </p>
@@ -61,16 +61,16 @@ export default {
     initForm(initialValues) {
       this.$data.form = {
         name: initialValues?.name,
-        minPlayer: initialValues?.minPlayer ?? 1,
-        maxPlayer: initialValues?.maxPlayer ?? 1,
+        minPlayers: initialValues?.minPlayers ?? 1,
+        maxPlayers: initialValues?.maxPlayers ?? 1,
         type: initialValues?.type,
       };
     },
     payloadTransformer(formValues) {
       return {
         ...formValues,
-        minPlayer: Number(formValues.minPlayer),
-        maxPlayer: Number(formValues.maxPlayer),
+        minPlayers: Number(formValues.minPlayers),
+        maxPlayers: Number(formValues.maxPlayers),
       };
     },
   },
