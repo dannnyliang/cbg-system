@@ -1,7 +1,7 @@
 <template>
-  <h1 @click="log">Item Page</h1>
+  <h1>Item Page</h1>
   <p>Item id: {{ $route.params.id }}</p>
-  <FormGame :initialValues="data" @submit="create" />
+  <FormGame :initialValues="data" @submit="update" />
   <router-link to="/list">
     <div class="back">Back to list</div>
   </router-link>
@@ -9,6 +9,7 @@
 
 <script>
 import FormGame from "../components/FormGame";
+import updateGame from '../apis/updateGame'
 import getGame from "../apis/getGame";
 
 export default {
@@ -26,6 +27,11 @@ export default {
     const data = await getGame(this.$route.params.id);
     this.$data.data = data;
     this.$data.loading = false;
+  },
+  methods: {
+    async update(formValues) {
+      await updateGame(this.$route.params.id, formValues);
+    },
   },
 };
 </script>
