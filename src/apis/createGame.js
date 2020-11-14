@@ -1,12 +1,6 @@
 import { getEndpoint } from "./utils";
 
-const payloadTransformer = (formValues) => ({
-  ...formValues,
-  minPlayer: Number(formValues.minPlayer),
-  maxPlayer: Number(formValues.maxPlayer),
-});
-
-export default async function(formValues) {
+export default async function(payload) {
   const endpoint = getEndpoint("createGame");
 
   const headers = new Headers();
@@ -17,7 +11,7 @@ export default async function(formValues) {
       method: "POST",
       headers,
       body: JSON.stringify({
-        variables: { payload: payloadTransformer(formValues) },
+        variables: { payload },
       }),
     });
     const data = await res.json();

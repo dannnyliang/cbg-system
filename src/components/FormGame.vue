@@ -36,7 +36,7 @@
       </select>
     </p>
 
-    <button @click.prevent="$emit('submit', $data.form)">submit</button>
+    <button @click.prevent="$emit('submit', payloadTransformer($data.form))">submit</button>
   </form>
 </template>
 
@@ -64,6 +64,13 @@ export default {
         minPlayer: initialValues?.minPlayer ?? 1,
         maxPlayer: initialValues?.maxPlayer ?? 1,
         type: initialValues?.type,
+      };
+    },
+    payloadTransformer(formValues) {
+      return {
+        ...formValues,
+        minPlayer: Number(formValues.minPlayer),
+        maxPlayer: Number(formValues.maxPlayer),
       };
     },
   },
