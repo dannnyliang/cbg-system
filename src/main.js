@@ -1,8 +1,5 @@
-import "ant-design-vue/dist/antd.css";
-
 import { createRouter, createWebHistory } from "vue-router";
 
-import Antd from "ant-design-vue";
 import App from "./App.vue";
 import Create from "./pages/Create.vue";
 import Home from "./pages/Home.vue";
@@ -25,6 +22,5 @@ export const router = createRouter({
 
 const app = createApp(App);
 app.use(router);
-app.use(Antd);
 app.use(constantPlguin);
 app.mount("#app");
