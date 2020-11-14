@@ -16,6 +16,7 @@ import FormGame from "../components/FormGame";
 import updateGame from "../apis/updateGame";
 import removeGame from "../apis/removeGame";
 import getGame from "../apis/getGame";
+import { router } from "../main";
 
 export default {
   name: "Item",
@@ -39,6 +40,7 @@ export default {
     },
     async remove() {
       await removeGame(this.$route.params.id);
+      router.replace('/list')
     },
   },
 };

@@ -15,7 +15,7 @@ const routes = [
   { name: 'item', path: "/item/:id", component: Item },
 ];
 
-const router = createRouter({
+export const router = createRouter({
   history: createWebHistory(),
   routes,
 });
