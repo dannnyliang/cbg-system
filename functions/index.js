@@ -46,6 +46,18 @@ exports.getGames = functions.https.onRequest(async (req, res) => {
   });
 });
 
+exports.getGame = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    const { id } = req.query;
+    const docSnapshot = await Collections.Game.doc(id).get();
+
+    res.status(200).send({
+      ...docSnapshot.data(),
+      id,
+    });
+  });
+});
+
 exports.updateGame = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     const { id, payload } = req.body.variables;
