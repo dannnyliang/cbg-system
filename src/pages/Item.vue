@@ -2,14 +2,19 @@
   <h1>Item Page</h1>
   <p>Item id: {{ $route.params.id }}</p>
   <FormGame :initialValues="data" @submit="update" />
-  <router-link to="/list">
-    <div class="back">Back to list</div>
-  </router-link>
+
+  <div class="button-row">
+    <router-link to="/list">
+      <div class="text-button">Back to list</div>
+    </router-link>
+    <div class="text-button danger" @click.prevent="remove">Remove</div>
+  </div>
 </template>
 
 <script>
 import FormGame from "../components/FormGame";
-import updateGame from '../apis/updateGame'
+import updateGame from "../apis/updateGame";
+import removeGame from "../apis/removeGame";
 import getGame from "../apis/getGame";
 
 export default {
@@ -32,6 +37,9 @@ export default {
     async update(formValues) {
       await updateGame(this.$route.params.id, formValues);
     },
+    async remove() {
+      await removeGame(this.$route.params.id);
+    },
   },
 };
 </script>
@@ -40,10 +48,20 @@ export default {
 a {
   text-decoration: none;
 }
-.back {
+.button-row {
+  display: flex;
+  justify-content: center;
+}
+.button-row > * {
+  margin: 16px;
+}
+.text-button {
   color: #42b983;
   font-weight: bold;
   font-size: 20px;
-  margin-top: 16px;
+  cursor: pointer;
+}
+.danger {
+  color: red;
 }
 </style>
