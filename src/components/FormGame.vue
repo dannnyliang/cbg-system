@@ -46,13 +46,26 @@ export default {
   props: ["initialValues", "submit"],
   data() {
     return {
-      form: {
-        name: this.initialValues?.name,
-        minPlayer: this.initialValues?.minPlayer ?? 1,
-        maxPlayer: this.initialValues?.maxPlayer ?? 1,
-        type: this.initialValues?.type,
-      },
+      form: {},
     };
+  },
+  mounted() {
+    this.initForm(this.initialValues);
+  },
+  watch: {
+    initialValues() {
+      this.initForm(this.initialValues);
+    },
+  },
+  methods: {
+    initForm(initialValues) {
+      this.$data.form = {
+        name: initialValues?.name,
+        minPlayer: initialValues?.minPlayer ?? 1,
+        maxPlayer: initialValues?.maxPlayer ?? 1,
+        type: initialValues?.type,
+      };
+    },
   },
 };
 </script>
