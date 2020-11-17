@@ -26,3 +26,4 @@ pnpm-debug.log*
 # firebase
 .firebase
 *.log
+service-account-file.json
