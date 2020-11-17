@@ -128,3 +128,16 @@ exports.uploadFile = functions.https.onRequest(async (req, res) => {
     busboy.end(req.rawBody);
   });
 });
+
+exports.removeFile = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    const { filePath } = req.body.variables;
+    console.log('filePath', filePath)
+
+    await bucket.deleteFiles({
+      prefix: filePath
+    })
+
+    res.status(200).send('successfully remove')
+  })
+})
