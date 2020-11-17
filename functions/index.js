@@ -1,8 +1,17 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const Busboy = require("busboy");
+const path = require("path");
+const { v4: uuidv4 } = require("uuid");
+const serviceAccount = require("./service-account-file.json");
 
 const cors = require("cors")({ origin: true });
-admin.initializeApp();
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
+// https://googleapis.dev/nodejs/storage/4.7.0/index.html
+const bucket = admin.storage().bucket("cbg-system.appspot.com");
 
 const fireStore = admin.firestore();
 
@@ -76,5 +85,46 @@ exports.removeGame = functions.https.onRequest(async (req, res) => {
     await Collections.Game.doc(id).delete();
 
     res.status(200).send("successfully remove");
+  });
+});
+
+exports.uploadFile = functions.https.onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    const busboy = new Busboy({ headers: req.headers });
+
+    let name;
+    let filePath;
+    let storageFile;
+
+    // This code will process each file uploaded.
+    busboy.on("file", async (fieldname, file, filename, encoding, mimetype) => {
+      name = filename;
+      filePath = `images/${uuidv4()}${path.extname(filename)}`;
+      storageFile = bucket.file(filePath);
+
+      const writeStream = storageFile.createWriteStream();
+      writeStream.on("finish", () => {
+        file.resume();
+      });
+      writeStream.on("error", (error) => {
+        throw error;
+      });
+      file.on("error", (error) => writeStream.destroy(error));
+      file.pipe(writeStream);
+    });
+
+    busboy.on("finish", async () => {
+      const signedUrl = await storageFile.getSignedUrl({
+        action: "read",
+        expires: "01-01-2100",
+      });
+      res.status(200).send({
+        name,
+        filePath,
+        url: signedUrl[0],
+      });
+    });
+
+    busboy.end(req.rawBody);
   });
 });
