@@ -28,6 +28,24 @@
     </p>
 
     <p>
+      <label for="coverImage">Cover Image: </label>
+      <a-upload
+        name="coverImage"
+        id="coverImage"
+        list-type="picture-list"
+        :action="uploadUrl"
+        :multiple="true"
+        :remove="handleCoverRemove"
+        @preview="handlePreview"
+      >
+        <a-button> Click to Upload </a-button>
+      </a-upload>
+      <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+        <img style="width: 100%" :src="previewImage" />
+      </a-modal>
+    </p>
+
+    <p>
       <label for="type">Game type: </label>
       <select name="type" id="type" v-model="form.type">
         <option v-for="(label, key) in $GAME_TYPE" :key="key" :value="key">
@@ -36,16 +54,34 @@
       </select>
     </p>
 
-    <button @click.prevent="$emit('submit', payloadTransformer($data.form))">submit</button>
+    <button @click.prevent="$emit('submit', payloadTransformer($data.form))">
+      submit
+    </button>
   </form>
 </template>
 
 <script>
+import { Upload, Button, Modal } from "ant-design-vue";
+import removeFile from "../apis/removeFile";
+import { getEndpoint } from "../apis/utils";
+
 export default {
   name: "FormGame",
   props: ["initialValues", "submit"],
+  components: {
+    AUpload: Upload,
+    AButton: Button,
+    AModal: Modal,
+  },
+  computed: {
+    uploadUrl() {
+      return getEndpoint("uploadFile");
+    },
+  },
   data() {
     return {
+      previewVisible: false,
+      previewImage: "",
       form: {},
     };
   },
@@ -73,6 +109,27 @@ export default {
         maxPlayers: Number(formValues.maxPlayers),
       };
     },
+    handleCancel() {
+      this.previewVisible = false;
+    },
+    async handlePreview(file) {
+      if (!file?.response?.url) {
+        return;
+      }
+      this.previewImage = file.response.url;
+      this.previewVisible = true;
+    },
+    handleCoverRemove(event) {
+      return removeFile(event.response.filePath)
+    },
   },
 };
 </script>
+
+<style>
+.ant-upload-picture-card-wrapper {
+  text-align: initial;
+  display: flex;
+  justify-content: center;
+}
+</style>
