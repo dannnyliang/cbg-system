@@ -27,15 +27,20 @@
       />
     </p>
 
-    <p>
-      <label for="coverImage">Cover Image: </label>
+    <label for="coverImage">Cover Image: </label>
+    <p v-if="$props?.initialValues?.coverImage">
+      <img :src="$props?.initialValues?.coverImage" width="100" height="100" />
+    </p>
+    <p v-else>
       <a-upload
         name="coverImage"
         id="coverImage"
-        list-type="picture-list"
+        accept="image/*"
+        list-type="picture-card"
         :action="uploadUrl"
         :multiple="true"
         :remove="handleCoverRemove"
+        @change="handleCoverChange"
         @preview="handlePreview"
       >
         <a-button> Click to Upload </a-button>
@@ -86,6 +91,7 @@ export default {
     };
   },
   mounted() {
+    console.log(this.$props);
     this.initForm(this.initialValues);
   },
   watch: {
@@ -95,11 +101,15 @@ export default {
   },
   methods: {
     initForm(initialValues) {
+      if (initialValues?.coverImage) {
+        this.$data.defaultCoverImage = [{ url: initialValues?.coverImage }];
+      }
       this.$data.form = {
         name: initialValues?.name,
         minPlayers: initialValues?.minPlayers ?? 1,
         maxPlayers: initialValues?.maxPlayers ?? 1,
         type: initialValues?.type,
+        coverImage: initialValues?.coverImage,
       };
     },
     payloadTransformer(formValues) {
@@ -112,6 +122,12 @@ export default {
     handleCancel() {
       this.previewVisible = false;
     },
+    handleCoverChange(event) {
+      const { file } = event;
+      if (file.status === "done") {
+        this.$data.form.coverImage = file.response.url;
+      }
+    },
     async handlePreview(file) {
       if (!file?.response?.url) {
         return;
@@ -120,6 +136,7 @@ export default {
       this.previewVisible = true;
     },
     handleCoverRemove(event) {
+      this.$data.form.coverImage = null;
       return removeFile(event.response.filePath);
     },
   },
