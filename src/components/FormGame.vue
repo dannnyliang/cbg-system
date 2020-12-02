@@ -63,7 +63,7 @@
 <script>
 import { Upload, Button, Modal } from "ant-design-vue";
 import removeFile from "../apis/removeFile";
-import { getEndpoint } from "../apis/utils";
+import { getUploadFileEndpoint } from "../apis/utils";
 
 export default {
   name: "FormGame",
@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     uploadUrl() {
-      return getEndpoint("uploadFile");
+      return getUploadFileEndpoint("coverImages");
     },
   },
   data() {
@@ -120,7 +120,7 @@ export default {
       this.previewVisible = true;
     },
     handleCoverRemove(event) {
-      return removeFile(event.response.filePath)
+      return removeFile(event.response.filePath);
     },
   },
 };

@@ -90,6 +90,7 @@ exports.removeGame = functions.https.onRequest(async (req, res) => {
 
 exports.uploadFile = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
+    const { prefix = "others" } = req.query;
     const busboy = new Busboy({ headers: req.headers });
 
     let name;
@@ -99,7 +100,7 @@ exports.uploadFile = functions.https.onRequest(async (req, res) => {
     // This code will process each file uploaded.
     busboy.on("file", async (fieldname, file, filename, encoding, mimetype) => {
       name = filename;
-      filePath = `images/${uuidv4()}${path.extname(filename)}`;
+      filePath = `${prefix}/${uuidv4()}${path.extname(filename)}`;
       storageFile = bucket.file(filePath);
 
       const writeStream = storageFile.createWriteStream();
@@ -132,12 +133,11 @@ exports.uploadFile = functions.https.onRequest(async (req, res) => {
 exports.removeFile = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
     const { filePath } = req.body.variables;
-    console.log('filePath', filePath)
 
     await bucket.deleteFiles({
-      prefix: filePath
-    })
+      prefix: filePath,
+    });
 
-    res.status(200).send('successfully remove')
-  })
-})
+    res.status(200).send("successfully remove");
+  });
+});
