@@ -87,7 +87,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .item-link {
   color: #42b983;
   text-decoration: none;

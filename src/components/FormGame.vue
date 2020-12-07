@@ -143,7 +143,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .ant-upload-picture-card-wrapper {
   text-align: initial;
   display: flex;

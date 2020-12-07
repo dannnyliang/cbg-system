@@ -40,13 +40,13 @@ export default {
     },
     async remove() {
       await removeGame(this.$route.params.id);
-      router.replace('/list')
+      router.replace("/list");
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 a {
   text-decoration: none;
 }
