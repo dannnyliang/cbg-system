@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^5.1.7",
     "ant-design-vue": "^2.0.0-rc.3",
     "core-js": "^3.6.5",
     "vue": "^3.0.4",
